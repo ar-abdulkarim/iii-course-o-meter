@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Part III Course-O-Meter (Final, from CSV)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height:1.45; margin:0; }
+    header { padding:1rem 1.25rem; border-bottom:1px solid #eee; background:#fafafa; }
+    h1 { margin:0 0 .25rem; font-size:1.5rem; }
+    main { padding:1rem 1.25rem 3rem; max-width:1200px; margin:0 auto; }
+    .caps { position: sticky; top:0; background:#f6f9ff; border-bottom:1px solid #e6edff; padding:.6rem .8rem; z-index:20; }
+    .pill { display:inline-block; padding:.2rem .5rem; border-radius:999px; background:#eef2ff; margin-right:.3rem; font-size:.8rem; }
+    .warn { background:#ffecec; border:1px solid #ffdada; color:#a40000; }
+    .ok { background:#e7ffe7; border:1px solid #cbf5cb; color:#0b5c0b; }
+    .card { border:1px solid #eee; border-radius:.75rem; padding:1rem; background:#fff; margin: 0 0 1rem; }
+    .group { margin: 1rem 0; }
+    h2 { font-size:1.2rem; margin:1rem 0 .5rem; }
+    h3 { font-size:1.05rem; margin:.6rem 0 .3rem; color:#333; }
+    .grid { display:grid; grid-template-columns: 44px 1fr 150px 90px 90px; gap:.5rem; align-items:center; }
+    .head { font-weight:600; color:#555; border-bottom:1px solid #eee; padding-bottom:.2rem; margin-top:.5rem; }
+    .row { padding:.3rem 0; border-bottom:1px dashed #f4f4f4; }
+    .muted { color:#777; }
+    .btn { background:#0b6cff; color:#fff; padding:.45rem .6rem; border:none; border-radius:.5rem; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#f1f4fb; color:#0b3c7a; border:1px solid #dbe5ff; }
+    .controls { display:grid; grid-template-columns: 1fr 1fr; gap:.75rem; }
+    input[type="search"], select { padding:.5rem .6rem; border-radius:.5rem; border:1px solid #ddd; width:100%; }
+    .share { font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.85rem; background:#f7f7f9; padding:.35rem .5rem; border-radius:.4rem; border:1px solid #eee; display:block; overflow:auto; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Part III Course-O-Meter <span class="muted">Final (from CSV)</span></h1>
+  <div class="muted">Total courses loaded: <b id="count"></b>.</div>
+</header>
+
+<div class="caps" id="caps"></div>
+
+<main>
+  <section class="card">
+    <div class="controls">
+      <div><label>Search</label><input id="q" type="search" placeholder="Filter by course name…" /></div>
+      <div><label>Filter by Category</label>
+        <select id="cat">
+          <option value="">All categories</option>
+          <option>Pure Mathematics (DPMMS)</option>
+          <option>Statistical Laboratory (DPMMS)</option>
+          <option>Theoretical Physics (DAMTP)</option>
+          <option>Applied Mathematics (DAMTP)</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(170px,1fr));gap:.75rem;margin-top:.8rem">
+      <div><span class="pill">Michaelmas</span> <b id="mUnits">0</b> units</div>
+      <div><span class="pill">Lent</span> <b id="lUnits">0</b> units</div>
+      <div><span class="pill">Easter</span> <b id="eUnits">0</b> units</div>
+      <div><span class="pill">Overall</span> <b id="allUnits">0</b> units</div>
+    </div>
+    <div style="margin-top:.6rem"><label><input id="essay" type="checkbox" /> Include Essay <span class="muted">(3 units)</span></label></div>
+    <div style="margin-top:.5rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button id="shareBtn" class="btn">Copy shareable URL</button>
+      <button class="secondary" id="resetBtn">Reset</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="grid head"><div></div><div>Course</div><div>Term(s)</div><div class="right">Lectures</div><div class="right">Units</div></div>
+    <div id="list"></div>
+  </section>
+
+  <section class="card">
+    <div style="font-weight:600; margin-bottom:.25rem;">Share / restore</div>
+    <div class="muted" style="margin-bottom:.4rem;">Use this link to reopen the same selections later:</div>
+    <code class="share" id="shareURL"></code>
+  </section>
+</main>
+
+<script id="data">const COURSES = [{"title": "Commutative Algebra", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Introduction to Modular Representation Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": false, "units": 0, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Lie Algebras and their Representations", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Coxeter Groups", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Noncommutative Noetherian Rings", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Topics in Infinite Groups", "terms": ["L"], "term": "L", "lectures": 16, "examinable": false, "units": 0, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebra"}, {"title": "Algebraic Geometry", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebraic Geometry"}, {"title": "Complex Manifolds", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebraic Geometry"}, {"title": "Homological Algebra", "terms": ["L"], "term": "L", "lectures": 24, "examinable": false, "units": 0, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebraic Geometry"}, {"title": "Toric Geometry", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Algebraic Geometry"}, {"title": "Analysis of Partial Differential Equations", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Analysis and PDEs"}, {"title": "Functional Analysis", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Analysis and PDEs"}, {"title": "Gaussian Processes", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Analysis and PDEs"}, {"title": "Introduction to Nonlinear Analysis", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Analysis and PDEs"}, {"title": "Elliptic Partial Differential Equations", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Analysis and PDEs"}, {"title": "Algebraic Methods in Combinatorics", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Combinatorics"}, {"title": "Probabilistic Combinatorics", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Combinatorics"}, {"title": "Analysis of Boolean Functions", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Combinatorics"}, {"title": "Ramsey Theory", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Combinatorics"}, {"title": "Algebraic Topology", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Differential Geometry", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Geometric Group Theory", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Knots and Knot Concordances", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Riemannian Geometry", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Symplectic Topology", "terms": ["L"], "term": "L", "lectures": 24, "examinable": false, "units": 0, "category": "Pure Mathematics (DPMMS)", "subcategory": "Differential Geometry and Topology"}, {"title": "Category Theory", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Foundations"}, {"title": "Forcing and the Continuum Hypothesis", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Foundations"}, {"title": "Logic and Computability", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Foundations"}, {"title": "Model Theory", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Foundations"}, {"title": "Additive Prime Number Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": false, "units": 0, "category": "Pure Mathematics (DPMMS)", "subcategory": "Number Theory"}, {"title": "Analytic Number Theory", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Number Theory"}, {"title": "Local Fields", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Pure Mathematics (DPMMS)", "subcategory": "Number Theory"}, {"title": "Diophantine Analysis", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Number Theory"}, {"title": "Elliptic Curves", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Pure Mathematics (DPMMS)", "subcategory": "Number Theory"}, {"title": "Information Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Information and Finance"}, {"title": "Concentration Inequalities", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Information and Finance"}, {"title": "Stochastic Calculus with Applications to Finance", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Information and Finance"}, {"title": "Advanced Probability", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Gaussian Processes", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Mixing Times of Markov Chains", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Random Discrete Structures", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Lanford\u2019s Theorem on Large Classical Systems", "terms": ["L"], "term": "L", "lectures": 8, "examinable": false, "units": 0, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Random Surfaces and Probability in Hyperbolic Geometry", "terms": ["L"], "term": "L", "lectures": 16, "examinable": false, "units": 0, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Random Walks and Phase Transitions", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Probability"}, {"title": "Gaussian Processes", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Modern Statistical Methods", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Topics in Statistical Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Astrostatistics", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Robust Statistics", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Statistical Learning in Practise", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Statistics in Medicine", "terms": ["L", "M"], "term": "", "lectures": 24, "examinable": true, "units": 3, "category": "Statistical Laboratory (DPMMS)", "subcategory": "Statistics"}, {"title": "Quantum Field Theory", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Statistical Field Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Symmetries, Particles and Fields", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Advanced Quantum Field Theory", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "String Theory", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Supersymmetry", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "The Standard Model", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Applications of Quantum Field Theory", "terms": ["E"], "term": "E", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Particle Physics and Quantum Fields"}, {"title": "Quantum Information Theory", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Quantum Computation, Information and Foundations"}, {"title": "Quantum Information, Foundations and Gravity", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Quantum Computation, Information and Foundations"}, {"title": "Quantum Entanglement in Many-body Physics", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Quantum Computation, Information and Foundations"}, {"title": "Topological Quantum Matter", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Quantum Computation, Information and Foundations"}, {"title": "Cosmology", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "General Relativity", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Black Holes", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Canonical Gravity", "terms": ["L"], "term": "L", "lectures": 16, "examinable": false, "units": 0, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Field Theory in Cosmology", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Solitons, Instantons and Geometry", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Gauge-Gravity Duality", "terms": ["E"], "term": "E", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Gravitational Waves and Numerical Relativity", "terms": ["E"], "term": "E", "lectures": 16, "examinable": true, "units": 2, "category": "Theoretical Physics (DAMTP)", "subcategory": "Relativity and Cosmology"}, {"title": "Mathematical Analysis of the Incompressible Navier-Stokes Equations", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Applied and Computational Analysis"}, {"title": "Distribution Theory and Applications", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Applied and Computational Analysis"}, {"title": "Spectral Computations in Infinite Dimensions", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Applied and Computational Analysis"}, {"title": "Astrophysical Fluid Dynamics", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Galaxy Formation", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Planetary System Dynamics", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Structure and Evolution of Stars", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Astrostatistics", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Dynamics of Astrophysical Discs", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Extrasolar Planets: Atmospheres and Interiors", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Further Stellar Evolution", "terms": ["L"], "term": "L", "lectures": 16, "examinable": false, "units": 0, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Radiative Processes in Astrophysics", "terms": ["L"], "term": "L", "lectures": 16, "examinable": false, "units": 0, "category": "Applied Mathematics (DAMTP)", "subcategory": "Astrophysics"}, {"title": "Biological Physics", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Fluid Dynamics of Climate", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Non-Newtonian Flows", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Perturbation Methods", "terms": ["M"], "term": "M", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Biological Flows", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Fluid Dynamics of Solid Earth", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Laboratory Demonstrations", "terms": ["L"], "term": "L", "lectures": 8, "examinable": false, "units": 0, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Noisy Mechanics", "terms": ["L"], "term": "L", "lectures": 24, "examinable": null, "units": null, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Slow Viscous Flow", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Continuum Mechanics"}, {"title": "Biological Physics", "terms": ["M"], "term": "M", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Soft Matter and Biological Physics"}, {"title": "Biological Flows", "terms": ["L"], "term": "L", "lectures": 16, "examinable": true, "units": 2, "category": "Applied Mathematics (DAMTP)", "subcategory": "Soft Matter and Biological Physics"}, {"title": "Noisy Mechanics", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Soft Matter and Biological Physics"}, {"title": "Slow Viscous Flow", "terms": ["L"], "term": "L", "lectures": 24, "examinable": true, "units": 3, "category": "Applied Mathematics (DAMTP)", "subcategory": "Soft Matter and Biological Physics"}];</script>
+<script>
+const listEl = document.getElementById('list');
+const qEl = document.getElementById('q');
+const catEl = document.getElementById('cat');
+const mEl = document.getElementById('mUnits');
+const lEl = document.getElementById('lUnits');
+const eEl = document.getElementById('eUnits');
+const allEl = document.getElementById('allUnits');
+const essayEl = document.getElementById('essay');
+const capsEl = document.getElementById('caps');
+const shareEl = document.getElementById('shareURL');
+const shareBtn = document.getElementById('shareBtn');
+const resetBtn = document.getElementById('resetBtn');
+document.getElementById('count').textContent = (COURSES||[]).length;
+
+let selected = new Set();
+
+function groupCourses(data) {
+  const obj = {
+    "Pure Mathematics (DPMMS)": {}, "Statistical Laboratory (DPMMS)": {}, "Theoretical Physics (DAMTP)": {}, "Applied Mathematics (DAMTP)": {},
+  };
+  data.forEach(c => {
+    const cat = c.category || 'Other';
+    const sub = c.subcategory || '';
+    if (!obj[cat]) obj[cat] = {};
+    if (!obj[cat][sub]) obj[cat][sub] = [];
+    obj[cat][sub].push(c);
+  });
+  return obj;
+}
+
+function render() {
+  const q = (qEl.value || '').toLowerCase();
+  const catFilter = catEl.value;
+  const grouped = groupCourses(COURSES);
+  listEl.innerHTML = '';
+
+  Object.keys(grouped).sort().forEach(cat => {
+    if (catFilter && cat !== catFilter) return;
+    const subs = grouped[cat];
+    const catDiv = document.createElement('div');
+    catDiv.className = 'group';
+    const h2 = document.createElement('h2');
+    h2.textContent = cat;
+    catDiv.appendChild(h2);
+
+    Object.keys(subs).sort().forEach(sub => {
+      const items = subs[sub].slice().sort((a,b)=> (a.title>b.title?1:-1));
+      const filtered = items.filter(c => {
+        if (q && !c.title.toLowerCase().includes(q)) return false;
+        return true;
+      });
+      if (!filtered.length) return;
+
+      const h3 = document.createElement('h3');
+      h3.textContent = sub || '—';
+      catDiv.appendChild(h3);
+
+      filtered.forEach(c => {
+        const i = COURSES.indexOf(c);
+        const disabled = (c.examinable === false || c.units === 0);
+        const row = document.createElement('div');
+        row.className = 'grid row';
+        const terms = (c.terms && c.terms.length ? c.terms.join(',') : (c.term || '—'));
+        row.innerHTML = `
+          <div><input type="checkbox" data-idx="${i}" ${selected.has(i)?'checked':''} ${disabled?'disabled':''}/></div>
+          <div>${c.title} ${c.examinable===false?'<span class="pill">non-examinable</span>':''}</div>
+          <div>${terms}</div>
+          <div class="right">${c.lectures??'—'}</div>
+          <div class="right">${c.units??'—'}</div>`;
+        catDiv.appendChild(row);
+      });
+    });
+
+    listEl.appendChild(catDiv);
+  });
+
+  listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const i = parseInt(e.target.getAttribute('data-idx'), 10);
+      if (e.target.checked) selected.add(i); else selected.delete(i);
+      recompute();
+    });
+  });
+}
+
+function recompute() {
+  const byTerm = { M:0, L:0, E:0 };
+  let paperUnits = 0;
+  selected.forEach(i => {
+    const c = COURSES[i];
+    if (!c || c.examinable === false || !c.units) return;
+    const u = c.units;
+    paperUnits += u;
+    const terms = (c.terms && c.terms.length) ? c.terms : (c.term ? [c.term] : []);
+    terms.forEach(t => { if (byTerm[t] !== undefined) byTerm[t] += u; });
+  });
+  const essayUnits = essayEl.checked ? 3 : 0;
+  const total = paperUnits + essayUnits;
+
+  mEl.textContent = byTerm.M;
+  lEl.textContent = byTerm.L;
+  eEl.textContent = byTerm.E;
+  allEl.textContent = total;
+
+  const msgs = [];
+  const pill = (txt, cls) => `<span class="pill ${cls||''}">${txt}</span>`;
+  if (paperUnits > 16) msgs.push(pill(`Over paper limit: ${paperUnits} > 16`, 'warn'));
+  if (total > 19) msgs.push(pill(`Over overall cap: ${total} > 19`, 'warn'));
+  if (essayEl.checked && total < 12) msgs.push(pill(`Below recommended minimum: ${total} < 12 (incl. essay)`, 'warn'));
+  if (!essayEl.checked) msgs.push(pill('Tip: add Essay (+3 units)'));
+  if (!msgs.length) msgs.push(pill('Within caps', 'ok'));
+  capsEl.innerHTML = msgs.join(' ');
+
+  updateShareURL();
+}
+
+function encodeSelection() {
+  let mask = 0n;
+  selected.forEach(i => { mask |= (1n << BigInt(i)); });
+  const code = mask.toString(36);
+  const e = essayEl.checked ? '1' : '0';
+  const c = catEl.value || '';
+  const q = encodeURIComponent(qEl.value || '');
+  const url = new URL(window.location.href);
+  url.hash = `#s=${code}&e=${e}&c=${c}&q=${q}`;
+  return url.toString();
+}
+
+function decodeSelectionFromHash() {
+  if (!window.location.hash) return;
+  const h = new URLSearchParams(window.location.hash.slice(1));
+  const s = h.get('s');
+  const e = h.get('e');
+  const c = h.get('c') || '';
+  const q = h.get('q') ? decodeURIComponent(h.get('q')) : '';
+  if (c) catEl.value = c;
+  if (q) qEl.value = q;
+  essayEl.checked = (e === '1');
+  if (!s) return;
+
+  try {
+    let mask = 0n;
+    const base = 36n;
+    const digits = s.toLowerCase();
+    for (let i=0;i<digits.length;i++) {
+      const val = parseInt(digits[i], 36);
+      if (isNaN(val)) continue;
+      mask = mask * base + BigInt(val);
+    }
+    selected = new Set();
+    for (let i=0;i<COURSES.length;i++) {
+      if ((mask >> BigInt(i)) & 1n) selected.add(i);
+    }
+  } catch (err) {
+    console.warn('Failed to decode selection', err);
+  }
+}
+
+function updateShareURL() {
+  shareEl.textContent = encodeSelection();
+}
+
+// Init
+render();
+decodeSelectionFromHash();
+recompute();
+
+qEl.addEventListener('input', () => { render(); recompute(); });
+catEl.addEventListener('change', () => { render(); recompute(); });
+essayEl.addEventListener('change', () => { recompute(); });
+</script>
+</body>
+</html>
