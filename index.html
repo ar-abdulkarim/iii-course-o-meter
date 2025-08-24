@@ -59,7 +59,7 @@
     <div style="margin-top:.6rem"><label><input id="essay" type="checkbox" /> Include Essay <span class="muted">(3 units)</span></label></div>
     <div style="margin-top:.5rem;display:flex;gap:.5rem;flex-wrap:wrap;">
       <button id="shareBtn" class="btn">Copy shareable URL</button>
-      <button class="secondary" id="resetBtn">Reset</button>
+      <button id="resetBtn" class="btn secondary">Reset</button>
     </div>
   </section>
 
@@ -247,6 +247,37 @@ recompute();
 qEl.addEventListener('input', () => { render(); recompute(); });
 catEl.addEventListener('change', () => { render(); recompute(); });
 essayEl.addEventListener('change', () => { recompute(); });
+// Reset button: clear all selections, filters, and essay; wipe hash; re-render
+resetBtn.addEventListener('click', () => {
+  selected = new Set();
+  qEl.value = '';
+  catEl.value = '';
+  essayEl.checked = false;
+  // clear URL hash (share code)
+  if (history && history.replaceState) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  } else {
+    window.location.hash = '';
+  }
+  render();
+  recompute();
+  qEl.focus();
+});
+
+// Copy shareable URL button (optional QoL)
+if (navigator && navigator.clipboard) {
+  shareBtn.addEventListener('click', async () => {
+    const url = encodeSelection();
+    try { await navigator.clipboard.writeText(url); } catch (e) {}
+    shareEl.textContent = url;
+    const old = shareBtn.textContent;
+    shareBtn.textContent = 'Copied!';
+    setTimeout(()=> shareBtn.textContent = old, 1200);
+  });
+} else {
+  shareBtn.addEventListener('click', () => { shareEl.textContent = encodeSelection(); });
+}
+
 </script>
 </body>
 </html>
