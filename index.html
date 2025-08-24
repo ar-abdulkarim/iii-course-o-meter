@@ -321,7 +321,7 @@ function collapseAll() {
 </style>
 </head>
 
-<body onload="initOmeter();">
+<body>
 
 <h1>Part III Course-O-Meter</h1>
 
@@ -396,6 +396,14 @@ function collapseAll() {
 
 <hr>
 <i>This tool is for guidance only, based on course information for the 2024-25 academic year.</i>
+
+<script type="text/javascript">
+  // This script is moved from the body onload event to the end of the body.
+  // This ensures that all the HTML elements, including the dynamically generated
+  // checkboxes, are present in the DOM before this script tries to access them.
+  // This resolves the timing issue where the script would run before the elements existed.
+  initOmeter();
+</script>
 
 </body>
 </html>
