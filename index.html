@@ -42,7 +42,7 @@ var courses = [
     {"c": "Functional Analysis", "d": "TuThS", "t": 12, "r": "MR4", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
     {"c": "Mathematical Analysis of the Incompressible Navier-Stokes Equations", "d": "TuThS", "t": 12, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
     {"c": "Astrophysical Fluid Dynamics", "d": "TuThS", "t": 11, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Statistics in Medicine", "d": "TuTh", "t": [10, 12], "r": "MR11", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Statistics in Medicine (Statistics in Medical Practice)", "d": "TuTh", "t": 12, "r": "MR11", "T": "M", "h": 12, "u": 1.5, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics", "sync_id": "sim"},
     {"c": "Quantum Information, Foundations and Gravity", "d": "TuTh", "t": 11, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
     {"c": "Random Discrete Structures", "d": "MW", "t": 12, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
     {"c": "Modern Statistical Methods", "d": "MWF", "t": 12, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
@@ -53,6 +53,7 @@ var courses = [
     {"c": "Introduction to Nonlinear Analysis", "d": "MWF", "t": 11, "r": "MR14", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
 
     // Lent
+    {"c": "Statistics in Medicine (Analysis of Survival Data)", "d": "TuTh", "t": 10, "r": "MR11", "T": "L", "h": 12, "u": 1.5, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics", "sync_id": "sim"},
     {"c": "Fluid Dynamics of the Solid Earth", "d": "MWF", "t": 9, "r": "MR12", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
     {"c": "Spectral Computations in Infinite Dimensions", "d": "MW", "t": 9, "r": "MR13", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
     {"c": "Black Holes", "d": "MWF", "t": 10, "r": "MR2", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
@@ -107,6 +108,7 @@ var courses = [
     {"c": "Spectral Graph Theory", "d": "MWF", "t": 11, "r": "MR4", "T": "E", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"}
 ];
 
+let isSyncing = false;
 
 function initOmeter() {
   decodeSelectionFromURL();
@@ -176,98 +178,116 @@ function parseDays(dayString) {
     return result.split(',').filter(d => d.trim().length > 0).map(d => d.trim());
 }
 
-function change() {
-  let mUnits = 0, lUnits = 0, eUnits = 0;
-  
-  let selectedCourses = [];
-  courses.forEach((course, i) => {
-    const cb = document.getElementById('cb' + i);
-    if (cb && cb.checked) {
-      if (course.T === 'M') mUnits += course.u;
-      if (course.T === 'L') lUnits += course.u;
-      if (course.T === 'E') eUnits += course.u;
-      selectedCourses.push({ ...course, id: i });
+function change(event, changedCourseId) {
+    if (isSyncing) return; // Prevent recursive calls
+
+    // --- Synchronization Logic ---
+    if (changedCourseId !== undefined) {
+        const changedCourse = courses[changedCourseId];
+        if (changedCourse && changedCourse.sync_id) {
+            isSyncing = true;
+            const checkboxState = document.getElementById('cb' + changedCourseId).checked;
+            courses.forEach((course, i) => {
+                if (course.sync_id === changedCourse.sync_id && i !== changedCourseId) {
+                    const cb = document.getElementById('cb' + i);
+                    if (cb) cb.checked = checkboxState;
+                }
+            });
+            isSyncing = false;
+        }
     }
-  });
-
-  // --- Term-Specific Clash Detection ---
-  const timetables = { M: {}, L: {}, E: {} };
-  selectedCourses.forEach(course => {
-      if (course.d && course.t && timetables[course.T]) {
-          const days = parseDays(course.d);
-          const times = Array.isArray(course.t) ? course.t : [course.t];
-          
-          days.forEach(day => {
-              times.forEach(time => {
-                  const slot = `${day}-${time}`;
-                  if (!timetables[course.T][slot]) {
-                      timetables[course.T][slot] = [];
-                  }
-                  timetables[course.T][slot].push(course.id);
-              });
-          });
-      }
-  });
-
-  const clashingCourseIds = new Set();
-  for (const term in timetables) {
-      const termTimetable = timetables[term];
-      for (const slot in termTimetable) {
-          if (termTimetable[slot].length > 1) {
-              termTimetable[slot].forEach(id => clashingCourseIds.add(id));
-          }
-      }
-  }
-
-  // --- UI Update Logic ---
-  courses.forEach((course, i) => {
-      const row = document.getElementById('r' + i);
+    
+    let mUnits = 0, lUnits = 0, eUnits = 0;
+    
+    let selectedCourses = [];
+    courses.forEach((course, i) => {
       const cb = document.getElementById('cb' + i);
-      if (!row || !cb) return;
-
-      const cells = row.querySelectorAll('td');
-      let color = ''; // Default (transparent)
-      if (clashingCourseIds.has(i)) {
-          color = '#ffcccc'; // Clash color
-      } else if (cb.checked) {
-          color = '#ffffd0'; // Selected color
+      if (cb && cb.checked) {
+        if (course.T === 'M') mUnits += course.u;
+        if (course.T === 'L') lUnits += course.u;
+        if (course.T === 'E') eUnits += course.u;
+        selectedCourses.push({ ...course, id: i });
       }
-      cells.forEach(cell => cell.style.backgroundColor = color);
-  });
+    });
+
+    // --- Term-Specific Clash Detection ---
+    const timetables = { M: {}, L: {}, E: {} };
+    selectedCourses.forEach(course => {
+        if (course.d && course.t && timetables[course.T]) {
+            const days = parseDays(course.d);
+            const times = Array.isArray(course.t) ? course.t : [course.t];
+            
+            days.forEach(day => {
+                times.forEach(time => {
+                    const slot = `${day}-${time}`;
+                    if (!timetables[course.T][slot]) {
+                        timetables[course.T][slot] = [];
+                    }
+                    timetables[course.T][slot].push(course.id);
+                });
+            });
+        }
+    });
+
+    const clashingCourseIds = new Set();
+    for (const term in timetables) {
+        const termTimetable = timetables[term];
+        for (const slot in termTimetable) {
+            if (termTimetable[slot].length > 1) {
+                termTimetable[slot].forEach(id => clashingCourseIds.add(id));
+            }
+        }
+    }
+
+    // --- UI Update Logic ---
+    courses.forEach((course, i) => {
+        const row = document.getElementById('r' + i);
+        const cb = document.getElementById('cb' + i);
+        if (!row || !cb) return;
+
+        const cells = row.querySelectorAll('td');
+        let color = ''; // Default (transparent)
+        if (clashingCourseIds.has(i)) {
+            color = '#ffcccc'; // Clash color
+        } else if (cb.checked) {
+            color = '#ffffd0'; // Selected color
+        }
+        cells.forEach(cell => cell.style.backgroundColor = color);
+    });
 
 
-  const essayCb = document.getElementById('cbEssay');
-  let essayUnits = 0;
-  if (essayCb && essayCb.checked) {
-    essayUnits = 3;
-    lUnits += essayUnits;
-  }
+    const essayCb = document.getElementById('cbEssay');
+    let essayUnits = 0;
+    if (essayCb && essayCb.checked) {
+      essayUnits = 3;
+      lUnits += essayUnits;
+    }
 
-  const paperUnits = mUnits + lUnits + eUnits - essayUnits;
-  const totalUnits = mUnits + lUnits + eUnits;
+    const paperUnits = mUnits + lUnits + eUnits - essayUnits;
+    const totalUnits = mUnits + lUnits + eUnits;
 
-  document.getElementById('Mtotal').innerHTML = `Michaelmas Total: <strong>${mUnits}</strong> units`;
-  document.getElementById('Ltotal').innerHTML = `Lent Total: <strong>${lUnits}</strong> units`;
-  document.getElementById('Etotal').innerHTML = `Easter Total: <strong>${eUnits}</strong> units`;
+    document.getElementById('Mtotal').innerHTML = `Michaelmas Total: <strong>${mUnits}</strong> units`;
+    document.getElementById('Ltotal').innerHTML = `Lent Total: <strong>${lUnits}</strong> units`;
+    document.getElementById('Etotal').innerHTML = `Easter Total: <strong>${eUnits}</strong> units`;
 
-  let warnings = [];
-  if (paperUnits > 16) {
-    warnings.push(`<span style="color:red; font-weight:bold;">Warning: Exceeds 16-unit limit for lecture courses.</span>`);
-  }
-  if (totalUnits > 19) {
-    warnings.push(`<span style="color:red; font-weight:bold;">Warning: Exceeds 19-unit total limit.</span>`);
-  }
-  if (clashingCourseIds.size > 0) {
-    warnings.push(`<span style="color:red; font-weight:bold;">Timetable clash detected!</span>`);
-  }
-  if (essayCb && essayCb.checked && totalUnits < 12) {
-    warnings.push(`Note: Below 12 units recommended for a Pass with an essay.`);
-  }
+    let warnings = [];
+    if (paperUnits > 16) {
+      warnings.push(`<span style="color:red; font-weight:bold;">Warning: Exceeds 16-unit limit for lecture courses.</span>`);
+    }
+    if (totalUnits > 19) {
+      warnings.push(`<span style="color:red; font-weight:bold;">Warning: Exceeds 19-unit total limit.</span>`);
+    }
+    if (clashingCourseIds.size > 0) {
+      warnings.push(`<span style="color:red; font-weight:bold;">Timetable clash detected!</span>`);
+    }
+    if (essayCb && essayCb.checked && totalUnits < 12) {
+      warnings.push(`Note: Below 12 units recommended for a Pass with an essay.`);
+    }
 
 
-  document.getElementById('total0').innerHTML = `Total: <strong>${totalUnits}</strong> units. ${warnings.join(' ')}`;
-  updateShareLink();
-  generateTimetableView(selectedCourses); // Update timetable view
+    document.getElementById('total0').innerHTML = `Total: <strong>${totalUnits}</strong> units. ${warnings.join(' ')}`;
+    updateShareLink();
+    generateTimetableView(selectedCourses); // Update timetable view
 }
 
 function generateTimetableView(selectedCourses) {
@@ -463,7 +483,7 @@ function collapseAll() {
                 subCatCourses.forEach(course => {
                     const timeString = course.d ? `${course.d} ${Array.isArray(course.t) ? course.t.join(' & ') : course.t}` : '';
                     html += `<tr id="r${course.id}">`;
-                    html += `<td><input type="checkbox" onchange="change();" id="cb${course.id}"></td>`;
+                    html += `<td><input type="checkbox" onchange="change(event, ${course.id});" id="cb${course.id}"></td>`;
                     html += `<td style="text-align:left">${course.c} ${!course.e ? '<span style="color:grey; font-size:90%;">(Non-examinable)</span>' : ''}</td>`;
                     html += `<td style="font-size:85%">${timeString}</td>`;
                     html += `<td style="font-size:85%">${course.r || ''}</td>`;
