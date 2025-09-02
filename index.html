@@ -5,102 +5,113 @@
 <title>Part III Course-O-Meter (Hierarchical)</title>
 
 <script type="text/javascript">
-// Final, hierarchical course data
+// Final, hierarchical course data with timetable information
 var courses = [
-    {"c": "Commutative Algebra", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Introduction to Modular Representation Theory", "T": "M", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Lie Algebras and their Representations", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Coxeter Groups", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Noncommutative Noetherian Rings", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Topics in Infinite Groups", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
-    {"c": "Algebraic Geometry", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
-    {"c": "Complex Manifolds", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
-    {"c": "Homological Algebra", "T": "L", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
-    {"c": "Toric Geometry", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
-    {"c": "Analysis of Partial Differential Equations", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
-    {"c": "Functional Analysis", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
-    {"c": "Introduction to Nonlinear Analysis", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
-    {"c": "Elliptic Partial Differential Equations", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
-    {"c": "Algebraic Methods in Combinatorics", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
-    {"c": "Probabilistic Combinatorics", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
-    {"c": "Analysis of Boolean Functions", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
-    {"c": "Ramsey Theory", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
-    {"c": "Algebraic Topology", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Differential Geometry", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Geometric Group Theory", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Knots and Knot Concordances", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Riemannian Geometry", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Symplectic Topology", "T": "L", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
-    {"c": "Category Theory", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
-    {"c": "Forcing and the Continuum Hypothesis", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
-    {"c": "Logic and Computability", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
-    {"c": "Model Theory", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
-    {"c": "Additive Prime Number Theory", "T": "M", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
-    {"c": "Analytic Number Theory", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
-    {"c": "Local Fields", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
-    {"c": "Diophantine Analysis", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
-    {"c": "Elliptic Curves", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
-    {"c": "Information Theory", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
-    {"c": "Concentration Inequalities", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
-    {"c": "Stochastic Calculus with Applications to Finance", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
-    {"c": "Advanced Probability", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Mixing Times of Markov Chains", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Random Discrete Structures", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Lanford’s Theorem on Large Classical Systems", "T": "L", "h": 8, "u": 0, "e": false, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Random Surfaces and Probability in Hyperbolic Geometry", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Random Walks and Phase Transitions", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
-    {"c": "Gaussian Processes", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Modern Statistical Methods", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Topics in Statistical Theory", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Statistics in Medicine", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Robust Statistics", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Statistical Learning in Practise", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
-    {"c": "Quantum Field Theory", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Statistical Field Theory", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Symmetries, Particles and Fields", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Advanced Quantum Field Theory", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "String Theory", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Supersymmetry", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "The Standard Model", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Applications of Quantum Field Theory", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
-    {"c": "Quantum Information Theory", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
-    {"c": "Quantum Information, Foundations and Gravity", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
-    {"c": "Quantum Entanglement in Many-body Physics", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
-    {"c": "Topological Quantum Matter", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
-    {"c": "Cosmology", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "General Relativity", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Black Holes", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Canonical Gravity", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Field Theory in Cosmology", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Solitons, Instantons and Geometry", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Gauge-Gravity Duality", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Gravitational Waves and Numerical Relativity", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
-    {"c": "Mathematical Analysis of the Incompressible Navier-Stokes Equations", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
-    {"c": "Distribution Theory and Applications", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
-    {"c": "Spectral Computations in Infinite Dimensions", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
-    {"c": "Astrophysical Fluid Dynamics", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Galaxy Formation", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Planetary System Dynamics", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Structure and Evolution of Stars", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Astrostatistics", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Dynamics of Astrophysical Discs", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Extrasolar Planets: Atmospheres and Interiors", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Further Stellar Evolution", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Radiative Processes in Astrophysics", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
-    {"c": "Fluid Dynamics of Climate", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Non-Newtonian Flows", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Perturbation Methods", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Biological Flows", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Fluid Dynamics of Solid Earth", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Laboratory Demonstrations", "T": "L", "h": 8, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Slow Viscous Flow", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
-    {"c": "Biological Physics", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Soft Matter and Biological Physics"},
-    {"c": "Noisy Mechanics", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Soft Matter and Biological Physics"}
+    // Michaelmas
+    {"c": "Gauge/Gravity Duality", "d": "MTuThF", "t": 10, "r": "MR3", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Applications of Quantum Field Theory", "d": "MTuThF", "t": 11, "r": "MR3", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Gravitational Waves and Numerical Relativity", "d": "MTuThF", "t": 12, "r": "MR3", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Cosmology", "d": "MWF", "t": 9, "r": "MR2", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Symmetries, Fields and Particles", "d": "MWF", "t": 10, "r": "MR2", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Quantum Field Theory", "d": "MWF", "t": 11, "r": "MR2", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "General Relativity", "d": "TuThS", "t": 12, "r": "MR2", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Stochastic Calculus with Applications to Finance", "d": "MWF", "t": 9, "r": "MR3", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
+    {"c": "Supersymmetry", "d": "MF", "t": 9, "r": "MR5", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Complex Manifolds", "d": "MWF", "t": 9, "r": "MR9", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
+    {"c": "Category Theory", "d": "MWF", "t": 9, "r": "MR4", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
+    {"c": "Probabilistic Combinatorics", "d": "MWF", "t": 9, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
+    {"c": "Algebraic Geometry", "d": "MWF", "t": 10, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
+    {"c": "Analytic Number Theory", "d": "MWF", "t": 11, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
+    {"c": "Information Theory", "d": "MW", "t": 11, "r": "MR9", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
+    {"c": "Structure and Evolution of Stars", "d": "MWF", "t": 10, "r": "MR11", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Planetary System Dynamics", "d": "MWF", "t": 11, "r": "MR11", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Biological Physics", "d": "MWF", "t": 10, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Soft Matter and Biological Physics"},
+    {"c": "Gaussian Processes and Measures", "d": "MW", "t": 10, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Quantum Information Theory", "d": "TuTh", "t": 9, "r": "MR5", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
+    {"c": "Statistical Field Theory", "d": "TuTh", "t": 10, "r": "MR2", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Topics in Statistical Theory", "d": "TuTh", "t": 10, "r": "MR4", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Forcing and the Continuum Hypothesis", "d": "TuTh", "t": 10, "r": "MR11", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
+    {"c": "Perturbation Methods", "d": "TuTh", "t": 10, "r": "MR12", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Mixing Times of Markov Chains", "d": "TuTh", "t": 10, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Algebraic Methods in Combinatorics", "d": "TuTh", "t": 11, "r": "MR5", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
+    {"c": "Local Fields", "d": "TuTh", "t": 12, "r": "MR5", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
+    {"c": "Advanced Probability", "d": "TuThS", "t": 9, "r": "MR3", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Algebraic Topology", "d": "TuThS", "t": 9, "r": "MR9", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+    {"c": "Lie Algebras and their Representations", "d": "TuThS", "t": 10, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Differential Geometry", "d": "TuThS", "t": 11, "r": "MR3", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+    {"c": "Functional Analysis", "d": "TuThS", "t": 12, "r": "MR4", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
+    {"c": "Mathematical Analysis of the Incompressible Navier-Stokes Equations", "d": "TuThS", "t": 12, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
+    {"c": "Astrophysical Fluid Dynamics", "d": "TuThS", "t": 11, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Statistics in Medicine", "d": "TuTh", "t": [10, 12], "r": "MR11", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Quantum Information, Foundations and Gravity", "d": "TuTh", "t": 11, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
+    {"c": "Random Discrete Structures", "d": "MW", "t": 12, "r": "MR13", "T": "M", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Modern Statistical Methods", "d": "MWF", "t": 12, "r": "MR5", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Commutative Algebra", "d": "MWF", "t": 12, "r": "MR9", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Formation of Galaxies", "d": "MWF", "t": 12, "r": "MR11", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Non-Newtonian Fluid Mechanics", "d": "MWF", "t": 12, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Fluid Dynamics of Climate", "d": "MWF", "t": 11, "r": "MR12", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Introduction to Nonlinear Analysis", "d": "MWF", "t": 11, "r": "MR14", "T": "M", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
+
+    // Lent
+    {"c": "Fluid Dynamics of the Solid Earth", "d": "MWF", "t": 9, "r": "MR12", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Spectral Computations in Infinite Dimensions", "d": "MW", "t": 9, "r": "MR13", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
+    {"c": "Black Holes", "d": "MWF", "t": 10, "r": "MR2", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Logic and Computability", "d": "MWF", "t": 10, "r": "MR5", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
+    {"c": "Knots and Knot Concordances", "d": "MWF", "t": 10, "r": "MR9", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+    {"c": "Quantum Entanglement in Many-body Physics", "d": "MW", "t": 10, "r": "MR11", "T": "L", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
+    {"c": "Slow Viscous Flow", "d": "MWF", "t": 10, "r": "MR12", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Diophantine Analysis", "d": "MWF", "t": 10, "r": "MR13", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
+    {"c": "Non-Commutative Noetherian Rings", "d": "MWF", "t": 10, "r": "MR14", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Elliptic Curves", "d": "MWF", "t": 11, "r": "MR3", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
+    {"c": "Field Theory in Cosmology", "d": "MWF", "t": 11, "r": "MR4", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Astrostatistics", "d": "MWF", "t": 11, "r": "MR9", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Noisy Mechanics", "d": "MWF", "t": 11, "r": "MR12", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Soft Matter and Biological Physics"},
+    {"c": "Advanced Quantum Field Theory", "d": "MWF", "t": 12, "r": "MR2", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Statistical Learning in Practice", "d": "MWF", "t": 12, "r": "MR5", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    {"c": "Extrasolar Planets: Atmospheres and Interiors", "d": "MWF", "t": 12, "r": "MR12", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Elliptic Partial Differential Equations", "d": "MWF", "t": 12, "r": "MR13", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
+    {"c": "Geometric Group Theory", "d": "MWF", "t": 12, "r": "MR14", "T": "L", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+
+    // Easter
+    {"c": "String Theory", "d": "TuThS", "t": 9, "r": "MR2", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Ramsey Theory", "d": "TuTh", "t": 9, "r": "MR3", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
+    {"c": "Biological Flows", "d": "TuTh", "t": 9, "r": "MR4", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Toric Geometry", "d": "TuThS", "t": 10, "r": "MR4", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
+    {"c": "Topological Quantum Matter", "d": "TuTh", "t": 10, "r": "MR5", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Quantum Computation, Information and Foundations"},
+    {"c": "Concentration Inequalities", "d": "TuTh", "t": 10, "r": "MR9", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Information and Finance"},
+    {"c": "Astrophysical Black Holes", "d": "TuTh", "t": 10, "r": "MR14", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Distribution Theory and Applications", "d": "TuTh", "t": 11, "r": "MR4", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Applied and Computational Analysis"},
+    {"c": "Analysis of Partial Differential Equations", "d": "TuThS", "t": 11, "r": "MR9", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Analysis and PDEs"},
+    {"c": "Solitons, Instantons and Geometry", "d": "TuTh", "t": 11, "r": "MR5", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Random Walks and Phase Transitions", "d": "TuThS", "t": 11, "r": "MR9", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Model Theory", "d": "TuS", "t": 11, "r": "MR13", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Foundations"},
+    {"c": "Dynamics of Astrophysical Discs", "d": "TuTh", "t": 11, "r": "MR14", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "The Standard Model", "d": "TuThS", "t": 12, "r": "MR2", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Theoretical Physics (DAMTP)", "subcat": "Particle Physics and Quantum Fields"},
+    {"c": "Analysis of Boolean Functions", "d": "TuTh", "t": 12, "r": "MR5", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"},
+    {"c": "Coxeter Groups", "d": "TuThS", "t": 12, "r": "MR12", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Riemannian Geometry", "d": "TuThS", "t": 12, "r": "MR13", "T": "E", "h": 24, "u": 3, "e": true, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+    {"c": "Robust Statistics", "d": "TuTh", "t": 12, "r": "MR14", "T": "E", "h": 16, "u": 2, "e": true, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Statistics"},
+    
+    // Non-examinable Courses with Timetables
+    {"c": "Laboratory Demonstrations", "d": "W", "t": 14, "r": "Fluids Lab", "T": "E", "h": 8, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Continuum Mechanics"},
+    {"c": "Introduction to Modular Representation Theory", "d": "MW", "t": 9, "r": "MR14", "T": "M", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Topics in Infinite Groups", "d": "WF", "t": 11, "r": "MR13", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebra"},
+    {"c": "Homological Algebra", "d": "MWF", "t": 9, "r": "MR11", "T": "L", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Algebraic Geometry"},
+    {"c": "Symplectic Topology", "d": "TuThS", "t": 9, "r": "MR12", "T": "L", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Differential Geometry and Topology"},
+    {"c": "Additive Prime Number Theory", "d": "MW", "t": 12, "r": "MR14", "T": "M", "h": 16, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Number Theory"},
+    {"c": "Lanford’s Theorem on Large Classical Systems", "d": "F", "t": 11, "r": "MR14", "T": "L", "h": 8, "u": 0, "e": false, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Random Surfaces and Probability in Hyperbolic Geometry", "d": "MW", "t": 11, "r": "MR11", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Statistical Laboratory (DPMMS)", "subcat": "Probability"},
+    {"c": "Canonical Gravity", "d": "TuTh", "t": 10, "r": "MR13", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Theoretical Physics (DAMTP)", "subcat": "Relativity and Cosmology"},
+    {"c": "Further Stellar Evolution", "d": "TuTh", "t": 12, "r": "MR11", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Radiative Processes in Astrophysical Plasma", "d": "TuTh", "t": 9, "r": "MR13", "T": "L", "h": 16, "u": 0, "e": false, "cat": "Applied Mathematics (DAMTP)", "subcat": "Astrophysics"},
+    {"c": "Spectral Graph Theory", "d": "MWF", "t": 11, "r": "MR4", "T": "E", "h": 24, "u": 0, "e": false, "cat": "Pure Mathematics (DPMMS)", "subcat": "Combinatorics"}
 ];
+
 
 function initOmeter() {
   decodeSelectionFromURL();
   change();
+  showView('list'); // Default to list view on load
 }
 
 function updateShareLink() {
@@ -157,23 +168,73 @@ function decodeSelectionFromURL() {
     }
 }
 
+function parseDays(dayString) {
+    if (!dayString) return [];
+    let result = dayString;
+    result = result.replace(/Tu/g, 'Tu,').replace(/Th/g, 'Th,');
+    result = result.replace(/M/g, 'M,').replace(/W/g, 'W,').replace(/F/g, 'F,').replace(/S/g, 'S,');
+    return result.split(',').filter(d => d.trim().length > 0).map(d => d.trim());
+}
+
 function change() {
   let mUnits = 0, lUnits = 0, eUnits = 0;
-
+  
+  let selectedCourses = [];
   courses.forEach((course, i) => {
     const cb = document.getElementById('cb' + i);
-    const row = document.getElementById('r' + i);
-    if (!cb || !row) return;
-
-    if (cb.checked) {
+    if (cb && cb.checked) {
       if (course.T === 'M') mUnits += course.u;
       if (course.T === 'L') lUnits += course.u;
       if (course.T === 'E') eUnits += course.u;
-      row.style.backgroundColor = '#ffffd0';
-    } else {
-      row.style.backgroundColor = '';
+      selectedCourses.push({ ...course, id: i });
     }
   });
+
+  // --- Term-Specific Clash Detection ---
+  const timetables = { M: {}, L: {}, E: {} };
+  selectedCourses.forEach(course => {
+      if (course.d && course.t && timetables[course.T]) {
+          const days = parseDays(course.d);
+          const times = Array.isArray(course.t) ? course.t : [course.t];
+          
+          days.forEach(day => {
+              times.forEach(time => {
+                  const slot = `${day}-${time}`;
+                  if (!timetables[course.T][slot]) {
+                      timetables[course.T][slot] = [];
+                  }
+                  timetables[course.T][slot].push(course.id);
+              });
+          });
+      }
+  });
+
+  const clashingCourseIds = new Set();
+  for (const term in timetables) {
+      const termTimetable = timetables[term];
+      for (const slot in termTimetable) {
+          if (termTimetable[slot].length > 1) {
+              termTimetable[slot].forEach(id => clashingCourseIds.add(id));
+          }
+      }
+  }
+
+  // --- UI Update Logic ---
+  courses.forEach((course, i) => {
+      const row = document.getElementById('r' + i);
+      const cb = document.getElementById('cb' + i);
+      if (!row || !cb) return;
+
+      const cells = row.querySelectorAll('td');
+      let color = ''; // Default (transparent)
+      if (clashingCourseIds.has(i)) {
+          color = '#ffcccc'; // Clash color
+      } else if (cb.checked) {
+          color = '#ffffd0'; // Selected color
+      }
+      cells.forEach(cell => cell.style.backgroundColor = color);
+  });
+
 
   const essayCb = document.getElementById('cbEssay');
   let essayUnits = 0;
@@ -196,38 +257,92 @@ function change() {
   if (totalUnits > 19) {
     warnings.push(`<span style="color:red; font-weight:bold;">Warning: Exceeds 19-unit total limit.</span>`);
   }
+  if (clashingCourseIds.size > 0) {
+    warnings.push(`<span style="color:red; font-weight:bold;">Timetable clash detected!</span>`);
+  }
   if (essayCb && essayCb.checked && totalUnits < 12) {
     warnings.push(`Note: Below 12 units recommended for a Pass with an essay.`);
   }
 
+
   document.getElementById('total0').innerHTML = `Total: <strong>${totalUnits}</strong> units. ${warnings.join(' ')}`;
   updateShareLink();
+  generateTimetableView(selectedCourses); // Update timetable view
+}
+
+function generateTimetableView(selectedCourses) {
+    const container = document.getElementById('timetable-view');
+    container.innerHTML = '<h2>Weekly Timetable View</h2>'; 
+
+    const terms = { M: 'Michaelmas', L: 'Lent', E: 'Easter' };
+    const daysOfWeek = { M: 'Monday', Tu: 'Tuesday', W: 'Wednesday', Th: 'Thursday', F: 'Friday', S: 'Saturday' };
+    const dayKeys = ['M', 'Tu', 'W', 'Th', 'F', 'S'];
+    const times = [9, 10, 11, 12, 14]; 
+
+    // Create a data structure to hold courses for each slot
+    let termData = { M: {}, L: {}, E: {} };
+    selectedCourses.forEach(course => {
+        if (course.d && course.t && termData[course.T]) {
+            const days = parseDays(course.d);
+            const courseTimes = Array.isArray(course.t) ? course.t : [course.t];
+            days.forEach(day => {
+                courseTimes.forEach(time => {
+                    const slot = `${day}-${time}`;
+                    if (!termData[course.T][slot]) termData[course.T][slot] = [];
+                    termData[course.T][slot].push(course);
+                });
+            });
+        }
+    });
+
+    for (const termKey in terms) {
+        let tableHtml = `<h3>${terms[termKey]} Term</h3>`;
+        tableHtml += `<table class="timetable-grid"><thead><tr><th>Time</th>`;
+        dayKeys.forEach(day => tableHtml += `<th>${daysOfWeek[day]}</th>`);
+        tableHtml += `</tr></thead><tbody>`;
+        
+        times.forEach(time => {
+            const timeLabel = (time === 14) ? "14:00" : `${time}:00`;
+            tableHtml += `<tr><th>${timeLabel}</th>`;
+            dayKeys.forEach(day => {
+                const slot = `${day}-${time}`;
+                const coursesInSlot = termData[termKey][slot] || [];
+                let cellContent = coursesInSlot.map(c => 
+                    `<div class="tt-entry">${c.c}<br><span class="tt-entry-room">(${c.r || 'N/A'})</span></div>`
+                ).join('');
+                let cellClass = coursesInSlot.length > 1 ? 'clash' : (coursesInSlot.length === 1 ? 'filled' : '');
+                tableHtml += `<td class="${cellClass}">${cellContent}</td>`;
+            });
+            tableHtml += `</tr>`;
+        });
+        
+        tableHtml += `</tbody></table>`;
+        container.innerHTML += tableHtml;
+    }
+}
+
+
+function showView(viewName) {
+    document.getElementById('list-view').style.display = (viewName === 'list') ? 'block' : 'none';
+    document.getElementById('timetable-view').style.display = (viewName === 'timetable') ? 'block' : 'none';
+    document.getElementById('list-view-btn').style.fontWeight = (viewName === 'list') ? 'bold' : 'normal';
+    document.getElementById('timetable-view-btn').style.fontWeight = (viewName === 'timetable') ? 'bold' : 'normal';
 }
 
 function resetAll() {
-    // Navigates to the base URL, effectively clearing the hash and resetting the state
     window.location.href = window.location.href.split('#')[0];
 }
 
 function copyShareLink(event) {
-    event.preventDefault(); // Prevent link from navigating
+    event.preventDefault();
     const shareLink = document.getElementById('shareLink');
     const urlToCopy = shareLink.href;
 
-    // Use a temporary textarea to copy the text for broader browser compatibility
     const textArea = document.createElement("textarea");
     textArea.value = urlToCopy;
-    // Prevent the textarea from being visible
     textArea.style.position = 'fixed';
     textArea.style.top = 0;
     textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = 0;
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
@@ -235,89 +350,77 @@ function copyShareLink(event) {
     try {
         document.execCommand('copy');
         shareLink.textContent = 'URL Copied!';
-        // Revert the text back after 2 seconds
-        setTimeout(() => {
-            shareLink.textContent = 'Share Selection';
-        }, 2000);
+        setTimeout(() => { shareLink.textContent = 'Share Selection'; }, 2000);
     } catch (err) {
-        console.error('Failed to copy text: ', err);
         shareLink.textContent = 'Copy Failed';
-         setTimeout(() => {
-            shareLink.textContent = 'Share Selection';
-        }, 2000);
+         setTimeout(() => { shareLink.textContent = 'Share Selection'; }, 2000);
     }
-
     document.body.removeChild(textArea);
 }
 
 function expandAll() {
   const details = document.getElementsByTagName('details');
-  for (let i = 0; i < details.length; i++) {
-    details[i].open = true;
-  }
+  for (let i = 0; i < details.length; i++) details[i].open = true;
 }
 
 function collapseAll() {
   const details = document.getElementsByTagName('details');
-  for (let i = 0; i < details.length; i++) {
-    details[i].open = false;
-  }
+  for (let i = 0; i < details.length; i++) details[i].open = false;
 }
 </script>
 
 <style type="text/css">
   body { font-family: sans-serif; }
   table { width: 100%; border-collapse: collapse; }
-  td { border: solid black; border-width: 1px 3px 1px 3px; text-align: center; padding: 2px; }
+  td, th { border: solid black; border-width: 1px 3px 1px 3px; text-align: center; padding: 2px; }
   tr.none td { border-width: 3px 0px 3px 0px; }
   tr.box td { border: solid black; border-width: 3px 3px 3px 3px; }
   .term-container { border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px; }
   
   details { margin-bottom: 5px; }
   summary {
-    font-size: 1em;
-    cursor: pointer;
-    padding: 4px;
-    margin-top: 8px;
-    list-style: none; /* Hide default triangle */
+    font-size: 1em; cursor: pointer; padding: 4px; margin-top: 8px; list-style: none; 
   }
   summary::-webkit-details-marker { display: none; }
-  summary:before {
-    content: '[+] ';
-    font-family: monospace;
-    font-size: 0.9em;
-  }
-  details[open] > summary:before {
-    content: '[-] ';
-  }
+  summary:before { content: '[+] '; font-family: monospace; font-size: 0.9em; }
+  details[open] > summary:before { content: '[-] '; }
   
-  /* Main Category styling */
   details.main-category > summary {
-    font-weight: bold;
-    /* font-size: 1.1em; <-- This was removed to make the font size consistent */
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
+    font-weight: bold; background-color: #f2f2f2; border: 1px solid #ccc; border-radius: 4px; padding: 8px;
   }
-  details.main-category > details {
-      margin-left: 20px;
+  details.main-category > details { margin-left: 20px; }
+  details.sub-category > summary { font-weight: bold; }
+  details.sub-category > table { margin-left: 15px; border: none; }
+  details.sub-category > table td { border-width: 0 0 1px 0; border-style: dashed; border-color: #eee; }
+
+  /* --- Timetable View Styles --- */
+  .timetable-grid { border-collapse: collapse; width: 100%; margin-bottom: 20px; table-layout: fixed; }
+  .timetable-grid th, .timetable-grid td { 
+      border: 1px solid black; 
+      padding: 2px; 
+      vertical-align: top; 
+      height: 55px; 
+      text-align: center;
   }
-  
-  /* Sub-category styling */
-  details.sub-category > summary {
+  .timetable-grid th { 
+      background-color: yellow;
+      font-size: 90%; 
       font-weight: bold;
   }
-  
-  details.sub-category > table {
-      margin-left: 15px;
-      border: none;
+  .timetable-grid td { 
+      font-size: 80%;
+      padding-top: 3px;
   }
-  details.sub-category > table td {
-      border-width: 0 0 1px 0;
-      border-style: dashed;
-      border-color: #eee;
+  .timetable-grid td.filled { background-color: #ffffd0; }
+  .timetable-grid td.clash { background-color: #ffcccc; font-weight: bold; }
+  .tt-entry { 
+      font-weight: bold;
+      margin-bottom: 4px;
   }
+  .tt-entry-room {
+      font-weight: normal;
+  }
+
 </style>
 </head>
 
@@ -328,14 +431,16 @@ function collapseAll() {
 <p>
   <table style="width: 60em;">
     <tr class="box">
-      <td width="34%"><a id="shareLink" href="#" onclick="copyShareLink(event)">Share Selection</a></td>
-      <td width="33%"><a href="javascript:expandAll();">Expand All</a> / <a href="javascript:collapseAll();">Collapse All</a></td>
-      <td width="33%"><a href="javascript:resetAll();">Reset</a></td>
+      <td width="25%"><a id="list-view-btn" href="#" onclick="showView('list'); return false;">List View</a></td>
+      <td width="25%"><a id="timetable-view-btn" href="#" onclick="showView('timetable'); return false;">Timetable</a></td>
+      <td width="25%"><a id="shareLink" href="#" onclick="copyShareLink(event)">Share Selection</a></td>
+      <td width="25%"><a href="javascript:resetAll();">Reset</a></td>
     </tr>
   </table>
 </p>
 
-<div style="width: 60em;">
+<div id="list-view" style="width: 60em;">
+    <p><a href="javascript:expandAll();">Expand All</a> / <a href="javascript:collapseAll();">Collapse All</a></p>
     <script type="text/javascript">
     function generateTermHtml(term, termName) {
         let html = `<div class="term-container">`;
@@ -345,20 +450,23 @@ function collapseAll() {
         const mainCats = [...new Set(termCourses.map(c => c.cat))].sort();
 
         mainCats.forEach(mainCat => {
-            html += `<details class="main-category" open><summary>${mainCat}</summary>`; // Added 'open' to have them expanded by default
+            html += `<details class="main-category" open><summary>${mainCat}</summary>`; 
             const mainCatCourses = termCourses.filter(c => c.cat === mainCat);
             const subCats = [...new Set(mainCatCourses.map(c => c.subcat))].sort();
 
             subCats.forEach(subCat => {
-                html += `<details class="sub-category" open><summary>${subCat}</summary><table>`; // Added 'open' to have them expanded by default
-                html += '<col width="3%"><col width="77%"><col width="10%"><col width="10%">';
-                html += "<tr style='font-weight:bold; font-size:90%;'><td></td><td style='text-align:left;'>Course</td><td>Hrs</td><td>Units</td></tr>";
+                html += `<details class="sub-category" open><summary>${subCat}</summary><table>`; 
+                html += '<col width="3%"><col width="60%"><col width="15%"><col width="10%"><col width="6%"><col width="6%">';
+                html += "<tr style='font-weight:bold; font-size:90%;'><td></td><td style='text-align:left;'>Course</td><td>Time</td><td>Room</td><td>Hrs</td><td>Units</td></tr>";
                 
                 const subCatCourses = mainCatCourses.filter(c => c.subcat === subCat).sort((a,b) => a.c.localeCompare(b.c));
                 subCatCourses.forEach(course => {
+                    const timeString = course.d ? `${course.d} ${Array.isArray(course.t) ? course.t.join(' & ') : course.t}` : '';
                     html += `<tr id="r${course.id}">`;
-                    html += `<td><input type="checkbox" onchange="change();" id="cb${course.id}" ${!course.e ? 'disabled' : ''}></td>`;
+                    html += `<td><input type="checkbox" onchange="change();" id="cb${course.id}"></td>`;
                     html += `<td style="text-align:left">${course.c} ${!course.e ? '<span style="color:grey; font-size:90%;">(Non-examinable)</span>' : ''}</td>`;
+                    html += `<td style="font-size:85%">${timeString}</td>`;
+                    html += `<td style="font-size:85%">${course.r || ''}</td>`;
                     html += `<td style="font-size:90%">${course.h}</td>`;
                     html += `<td style="font-size:90%">${course.u}</td>`;
                     html += `</tr>`;
@@ -378,30 +486,29 @@ function collapseAll() {
     document.write(generateTermHtml('L', 'Lent'));
     document.write(generateTermHtml('E', 'Easter'));
     </script>
+
+    <p>
+    <table style="width: 100%;">
+      <tr class="box">
+        <td width="3%"><input type="checkbox" onchange="change();" id="cbEssay"></td>
+        <td style="text-align:left">Part III Essay</td>
+        <td style="font-size:95%; width:20%;">3 units</td>
+      </tr>
+      <tr class="none"><td colspan="3">&nbsp;</td></tr>
+      <tr class="box">
+        <td colspan="3" id="total0" style="font-weight:bold;">Total: 0 units</td>
+      </tr>
+    </table>
+    </p>
 </div>
 
-<p>
-<table style="width: 60em;">
-  <tr class="box">
-    <td width="3%"><input type="checkbox" onchange="change();" id="cbEssay"></td>
-    <td style="text-align:left">Part III Essay</td>
-    <td style="font-size:95%; width:20%;">3 units</td>
-  </tr>
-  <tr class="none"><td colspan="3">&nbsp;</td></tr>
-  <tr class="box">
-    <td colspan="3" id="total0" style="font-weight:bold;">Total: 0 units</td>
-  </tr>
-</table>
-</p>
+<div id="timetable-view" style="width: 60em; display: none;">
+    </div>
 
 <hr>
-<i>This tool is for guidance only, based on course information for the 2024-25 academic year.</i>
+<i style="font-size:90%;">This tool is for guidance only, based on the Part III lecture list for the 2025-26 academic year.</i>
 
 <script type="text/javascript">
-  // This script is moved from the body onload event to the end of the body.
-  // This ensures that all the HTML elements, including the dynamically generated
-  // checkboxes, are present in the DOM before this script tries to access them.
-  // This resolves the timing issue where the script would run before the elements existed.
   initOmeter();
 </script>
 
